@@ -34,13 +34,16 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 	private DateTime endTime;
 	private DateTime date;
 	
-	private final String days[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+	private final String[] days = new String[] {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+	private final String[] daysValues = new String[] {"0", "1", "2", "3", "4", "5", "6"};
+	
 	private List<String> chosenDays = new ArrayList<String>();
 	
 	@Override
 	public void init() {
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void createDialogArea(Composite parent, Profile profile) {
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -52,11 +55,14 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		Composite compDays = new Composite(composite, SWT.NONE);
 		compDays.setLayout(new GridLayout(5, false));
 		
+		List<String> data = (List<String>) (profile != null && profile.getProfileData() != null
+				? profile.getProfileData().get(LoginManagerConstants.PARAMETERS.DAYS) : null);
+		
 		for (int i = 0; i < days.length; i++) {
 			String i18n = Messages.getString(days[i]);
 			if (i18n != null && !i18n.isEmpty()) {
 				btnDays = new Button(compDays, SWT.CHECK);
-				btnDays.setData(days[i]);
+				btnDays.setData(daysValues[i]);
 				btnDays.setText(i18n);
 				btnDays.addSelectionListener(new SelectionAdapter() {
 					
@@ -69,6 +75,9 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 			        }
 				});
 			}
+			if (data.contains(daysValues[i])) {
+				btnDays.setSelection(true);
+			}
 	    }
 		
 		Label lblTimeDate = new Label(composite, SWT.NONE);
@@ -80,17 +89,34 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		Label lblStartTime = new Label(compOptions, SWT.NONE);
 		lblStartTime.setText(Messages.getString("START_TIME"));
 		
-		startTime = new DateTime(compOptions, SWT.TIME);
+		startTime = new DateTime(compOptions, SWT.TIME | SWT.SHORT);
+		String start = (String) (profile != null && profile.getProfileData() != null
+				? profile.getProfileData().get(LoginManagerConstants.PARAMETERS.START_TIME) : null);
+		String[] arrStart = start.split(":");
+		startTime.setHours(Integer.valueOf(arrStart[0]));
+		startTime.setMinutes(Integer.valueOf(arrStart[1]));
 		
 		Label lblEndTime = new Label(compOptions, SWT.NONE);
 		lblEndTime.setText(Messages.getString("END_TIME"));
 		
-		endTime = new DateTime(compOptions, SWT.TIME);
+		endTime = new DateTime(compOptions, SWT.TIME | SWT.SHORT);
+		String end = (String) (profile != null && profile.getProfileData() != null
+				? profile.getProfileData().get(LoginManagerConstants.PARAMETERS.END_TIME) : null);
+		String[] arrEnd = end.split(":");
+		endTime.setHours(Integer.valueOf(arrEnd[0]));
+		endTime.setMinutes(Integer.valueOf(arrEnd[1]));
 		
 		Label lblDate = new Label(compOptions, SWT.NONE);
 		lblDate.setText(Messages.getString("LAST_AVAILABILITY_DATE"));
 		
 		date = new DateTime(compOptions, SWT.DATE);
+		String strDate = (String) (profile != null && profile.getProfileData() != null
+				? profile.getProfileData().get(LoginManagerConstants.PARAMETERS.LAST_DATE) : null);
+		String[] arrDate = strDate.split("/");
+		date.setDay(Integer.valueOf(arrDate[0]));
+		date.setMonth(Integer.valueOf(arrDate[1])-1);
+		date.setYear(Integer.valueOf(arrDate[2]));
+		
 	}
 	
 	public String convertDateToString(DateTime date) {
@@ -112,7 +138,6 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		calendar.setTimeInMillis(0); // set to zero epoch
 		calendar.set(Calendar.HOUR, time.getHours());
 		calendar.set(Calendar.MINUTE, time.getMinutes());
-		calendar.set(Calendar.SECOND, time.getSeconds());
 		
 		return calendar.getTime();
 	}
@@ -121,8 +146,8 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 	public Map<String, Object> getProfileData() throws Exception {
 		Map<String, Object> profileData = new HashMap<String, Object>();
 		profileData.put(LoginManagerConstants.PARAMETERS.DAYS, chosenDays);
-		profileData.put(LoginManagerConstants.PARAMETERS.START_TIME, convertTimeToDate(startTime));
-		profileData.put(LoginManagerConstants.PARAMETERS.END_TIME, convertTimeToDate(endTime));
+		profileData.put(LoginManagerConstants.PARAMETERS.START_TIME, startTime.getHours() + ":" + startTime.getMinutes());
+		profileData.put(LoginManagerConstants.PARAMETERS.END_TIME, endTime.getHours() + ":" + endTime.getMinutes());
 		profileData.put(LoginManagerConstants.PARAMETERS.LAST_DATE, convertDateToString(date));
 		return profileData;
 	}
