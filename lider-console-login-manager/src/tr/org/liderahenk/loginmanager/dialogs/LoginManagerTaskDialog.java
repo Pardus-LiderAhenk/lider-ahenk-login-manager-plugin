@@ -36,7 +36,9 @@ public class LoginManagerTaskDialog extends DefaultTaskDialog {
 	private DateTime endTime;
 	private DateTime date;
 	
-	private final String days[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+	private final String[] days = new String[] {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+	private final String[] daysValues = new String[] {"0", "1", "2", "3", "4", "5", "6"};
+	
 	private List<String> chosenDays = new ArrayList<String>();
 	
 	public LoginManagerTaskDialog(Shell parentShell, Set<String> dnSet) {
@@ -64,7 +66,7 @@ public class LoginManagerTaskDialog extends DefaultTaskDialog {
 			String i18n = Messages.getString(days[i]);
 			if (i18n != null && !i18n.isEmpty()) {
 				btnDays = new Button(compDays, SWT.CHECK);
-				btnDays.setData(days[i]);
+				btnDays.setData(daysValues[i]);
 				btnDays.setText(i18n);
 				btnDays.addSelectionListener(new SelectionAdapter() {
 					
@@ -88,12 +90,12 @@ public class LoginManagerTaskDialog extends DefaultTaskDialog {
 		Label lblStartTime = new Label(compOptions, SWT.NONE);
 		lblStartTime.setText(Messages.getString("START_TIME"));
 		
-		startTime = new DateTime(compOptions, SWT.TIME);
+		startTime = new DateTime(compOptions, SWT.TIME | SWT.SHORT);
 		
 		Label lblEndTime = new Label(compOptions, SWT.NONE);
 		lblEndTime.setText(Messages.getString("END_TIME"));
 		
-		endTime = new DateTime(compOptions, SWT.TIME);
+		endTime = new DateTime(compOptions, SWT.TIME | SWT.SHORT);
 		
 		Label lblDate = new Label(compOptions, SWT.NONE);
 		lblDate.setText(Messages.getString("LAST_AVAILABILITY_DATE"));
@@ -122,7 +124,6 @@ public class LoginManagerTaskDialog extends DefaultTaskDialog {
 		calendar.setTimeInMillis(0); // set to zero epoch
 		calendar.set(Calendar.HOUR, time.getHours());
 		calendar.set(Calendar.MINUTE, time.getMinutes());
-		calendar.set(Calendar.SECOND, time.getSeconds());
 		
 		return calendar.getTime();
 	}
@@ -141,8 +142,8 @@ public class LoginManagerTaskDialog extends DefaultTaskDialog {
 	public Map<String, Object> getParameterMap() {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put(LoginManagerConstants.PARAMETERS.DAYS, chosenDays);
-		parameterMap.put(LoginManagerConstants.PARAMETERS.START_TIME, convertTimeToDate(startTime));
-		parameterMap.put(LoginManagerConstants.PARAMETERS.END_TIME, convertTimeToDate(endTime));
+		parameterMap.put(LoginManagerConstants.PARAMETERS.START_TIME, startTime.getHours() + ":" + startTime.getMinutes());
+		parameterMap.put(LoginManagerConstants.PARAMETERS.END_TIME, endTime.getHours() + ":" + endTime.getMinutes());
 		parameterMap.put(LoginManagerConstants.PARAMETERS.LAST_DATE, convertDateToString(date));
 		return parameterMap;
 	}
