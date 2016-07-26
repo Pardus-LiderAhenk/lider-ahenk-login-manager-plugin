@@ -30,7 +30,6 @@
 
     <feature name="lider-login-manager-bundles" version="${project.version}">
 		<bundle>mvn:tr.org.liderahenk/lider-login-manager/${project.version}</bundle>
-		<bundle>mvn:tr.org.liderahenk/lider-login-manager-db/${project.version}</bundle>
 		<configfile finalname="/etc/tr.org.liderahenk.loginmanager.cfg">mvn:tr.org.liderahenk/lider-login-manager/${project.version}/cfg</configfile>
     </feature>
 

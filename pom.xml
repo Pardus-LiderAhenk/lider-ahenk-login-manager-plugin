@@ -79,7 +79,6 @@
 
 	<modules>
 		<module>lider-login-manager</module>
-		<module>lider-login-manager-db</module>
 		<module>lider-login-manager-feature</module>
 		<module>lider-console-login-manager</module>
 		<module>lider-console-login-manager-feature</module>
