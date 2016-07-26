@@ -22,16 +22,16 @@ class LoginManager(AbstractPlugin):
         self.arr_start_time = str(self.start_time).split(':')
         self.arr_end_time = str(self.end_time).split(':')
 
+        self.today = datetime.datetime.today().weekday()
+        self.current_time = datetime.datetime.today().time()
+        self.current_date = datetime.datetime.today().date()
+
         self.start_minute = int(self.arr_start_time[0]) * 60 + int(self.arr_start_time[1])
         self.end_minute = int(self.arr_end_time[0]) * 60 + int(self.arr_end_time[1])
         self.current_minute = int(self.current_time.hour) * 60 + int(self.current_time.minute)
 
         self.command_logout_user = 'pkill -u {0}'
         self.command_get_users_currently_login = "who | cut -d' ' -f1 | sort | uniq"
-
-        self.today = datetime.datetime.today().weekday()
-        self.current_time = datetime.datetime.today().time()
-        self.current_date = datetime.datetime.today().date()
 
         self.logger.debug('[LOGIN-MANAGER] Parameters were initialized.')
 
