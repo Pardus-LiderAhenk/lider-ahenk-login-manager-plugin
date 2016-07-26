@@ -95,8 +95,6 @@
 						<Bundle-Version>1.0.0</Bundle-Version>
 						<!-- There is a bug that imports packages reside in the bundle. Here we prevent this: -->
 						<Import-Package>!tr.org.liderahenk.loginmanager.*, *</Import-Package>
-						<!-- If the plugin also have a *-db bundle, then use this line instead: -->
-						<Import-Package>tr.org.liderahenk.loginmanager.entities.*, !tr.org.liderahenk.loginmanager.*, *</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>
