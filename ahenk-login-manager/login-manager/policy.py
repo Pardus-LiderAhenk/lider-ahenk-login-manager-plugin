@@ -50,21 +50,20 @@ class LoginManager(AbstractPlugin):
                 self.write_to_global_profile()
 
             self.context.create_response(code=self.message_code.POLICY_PROCESSED.value,
-                                         message='Login-Manager policy is handled successfully')
+                                         message='Login-Manager profili başarıyla uygulandı.')
             self.logger.info('[LOGIN-MANAGER] Login-Manager policy is handled successfully')
 
         except Exception as e:
             self.logger.error(
                 '[LOGIN-MANAGER] A problem occured while handling Login-Manager policy: {0}'.format(str(e)))
             self.context.create_response(code=self.message_code.POLICY_ERROR.value,
-                                         message='A problem occured while handling Login-Manager policy: {0}'.format(
-                                             str(e)))
+                                         message='Login-Manager profili uygulanırken bir hata oluştu.')
 
     def write_to_user_profile(self):
 
         if str(self.today) in self.days:
 
-            if not(self.start_minute < self.current_minute < self.end_minute and self.current_date < self.last_date):
+            if not(self.start_minute < self.current_minute < self.end_minute and self.current_date <= self.last_date):
                 self.logger.debug('[LOGIN-MANAGER] User: {0} cannot log in. Session will be terminated.'.format(self.username))
                 self.execute(self.command_logout_user.format(self.username))
             else:
@@ -85,7 +84,7 @@ class LoginManager(AbstractPlugin):
 
         if str(self.today) in self.days:
 
-            if not (self.start_minute < self.current_minute < self.end_minute and self.current_date < self.last_date):
+            if not (self.start_minute < self.current_minute < self.end_minute and self.current_date <= self.last_date):
                 self.logger.debug('[LOGIN-MANAGER] All users in this machine cannot log in. Sessions will be terminated.')
                 for user in users:
                     self.execute(self.command_logout_user.format(user))

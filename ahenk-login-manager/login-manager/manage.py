@@ -47,7 +47,7 @@ class LoginManager(AbstractPlugin):
 
             if str(self.today) in self.days:
 
-                if not (self.start_minute < self.current_minute < self.end_minute and self.current_date < self.last_date):
+                if not (self.start_minute < self.current_minute < self.end_minute and self.current_date <= self.last_date):
                     self.logger.debug('[LOGIN-MANAGER] All users in this machine cannot log in. Sessions will be terminated.')
                     for user in users:
                         self.execute(self.command_logout_user.format(user))
@@ -61,12 +61,12 @@ class LoginManager(AbstractPlugin):
 
             self.logger.info('[LOGIN-MANAGER] Login-Manager task is handled successfully')
             self.context.create_response(code=self.message_code.TASK_PROCESSED.value,
-                                         message='Login-Manager task is handled successfully')
+                                         message='Login-Manager görevi başarıyla çalıştırıldı.')
 
         except Exception as e:
             self.logger.error('[LOGIN-MANAGER] A problem occured while handling Login-Manager task: {0}'.format(str(e)))
             self.context.create_response(code=self.message_code.TASK_ERROR.value,
-                                     message='A problem occured while handling Login-Manager task: {0}'.format(str(e)))
+                                     message='Login-Manager görevi çalıştırılırken bir hata oluştu.')
 
 def handle_task(task, context):
     manage = LoginManager(task, context)
