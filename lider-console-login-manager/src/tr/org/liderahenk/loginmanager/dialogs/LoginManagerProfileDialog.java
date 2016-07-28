@@ -10,6 +10,8 @@ import java.util.Map;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -49,6 +51,13 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
 		
+		Label lblTitle = new Label(composite, SWT.NONE);
+		lblTitle.setText(Messages.getString("TITLE"));
+		FontData fontData = lblTitle.getFont().getFontData()[0];
+		Font font = new Font(composite.getDisplay(), new FontData(fontData.getName(), fontData
+		    .getHeight(), SWT.BOLD));
+		lblTitle.setFont(font);
+		
 		Label lblDays = new Label(composite, SWT.NONE);
 		lblDays.setText(Messages.getString("DAYS"));
 		
@@ -72,10 +81,15 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 			            if (btn.getSelection()) {
 							chosenDays.add((String) btn.getData());
 						}
+			            else {
+			            	if(chosenDays.contains((String) btn.getData())) {
+			            		chosenDays.remove((String) btn.getData());
+			            	}
+			            }
 			        }
 				});
 			}
-			if (data.contains(daysValues[i])) {
+			if (data != null && data.contains(daysValues[i])) {
 				btnDays.setSelection(true);
 			}
 	    }
@@ -92,9 +106,12 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		startTime = new DateTime(compOptions, SWT.TIME | SWT.SHORT);
 		String start = (String) (profile != null && profile.getProfileData() != null
 				? profile.getProfileData().get(LoginManagerConstants.PARAMETERS.START_TIME) : null);
-		String[] arrStart = start.split(":");
-		startTime.setHours(Integer.valueOf(arrStart[0]));
-		startTime.setMinutes(Integer.valueOf(arrStart[1]));
+		
+		if(start != null) {
+			String[] arrStart = start.split(":");
+			startTime.setHours(Integer.valueOf(arrStart[0]));
+			startTime.setMinutes(Integer.valueOf(arrStart[1]));
+		}
 		
 		Label lblEndTime = new Label(compOptions, SWT.NONE);
 		lblEndTime.setText(Messages.getString("END_TIME"));
@@ -102,9 +119,12 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		endTime = new DateTime(compOptions, SWT.TIME | SWT.SHORT);
 		String end = (String) (profile != null && profile.getProfileData() != null
 				? profile.getProfileData().get(LoginManagerConstants.PARAMETERS.END_TIME) : null);
-		String[] arrEnd = end.split(":");
-		endTime.setHours(Integer.valueOf(arrEnd[0]));
-		endTime.setMinutes(Integer.valueOf(arrEnd[1]));
+		
+		if(end != null) {
+			String[] arrEnd = end.split(":");
+			endTime.setHours(Integer.valueOf(arrEnd[0]));
+			endTime.setMinutes(Integer.valueOf(arrEnd[1]));
+		}
 		
 		Label lblDate = new Label(compOptions, SWT.NONE);
 		lblDate.setText(Messages.getString("LAST_AVAILABILITY_DATE"));
@@ -112,11 +132,13 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		date = new DateTime(compOptions, SWT.DATE);
 		String strDate = (String) (profile != null && profile.getProfileData() != null
 				? profile.getProfileData().get(LoginManagerConstants.PARAMETERS.LAST_DATE) : null);
-		String[] arrDate = strDate.split("/");
-		date.setDay(Integer.valueOf(arrDate[0]));
-		date.setMonth(Integer.valueOf(arrDate[1])-1);
-		date.setYear(Integer.valueOf(arrDate[2]));
 		
+		if(strDate != null) {
+			String[] arrDate = strDate.split("/");
+			date.setDay(Integer.valueOf(arrDate[0]));
+			date.setMonth(Integer.valueOf(arrDate[1])-1);
+			date.setYear(Integer.valueOf(arrDate[2]));
+		}
 	}
 	
 	public String convertDateToString(DateTime date) {

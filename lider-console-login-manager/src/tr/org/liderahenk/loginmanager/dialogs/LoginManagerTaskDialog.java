@@ -11,6 +11,8 @@ import java.util.Set;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -56,6 +58,13 @@ public class LoginManagerTaskDialog extends DefaultTaskDialog {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
 		
+		Label lblTitle = new Label(composite, SWT.NONE);
+		lblTitle.setText(Messages.getString("TITLE"));
+		FontData fontData = lblTitle.getFont().getFontData()[0];
+		Font font = new Font(composite.getDisplay(), new FontData(fontData.getName(), fontData
+		    .getHeight(), SWT.BOLD));
+		lblTitle.setFont(font);
+		
 		Label lblDays = new Label(composite, SWT.NONE);
 		lblDays.setText(Messages.getString("DAYS"));
 		
@@ -76,6 +85,11 @@ public class LoginManagerTaskDialog extends DefaultTaskDialog {
 			            if (btn.getSelection()) {
 							chosenDays.add((String) btn.getData());
 						}
+			            else {
+			            	if(chosenDays.contains((String) btn.getData())) {
+			            		chosenDays.remove((String) btn.getData());
+			            	}
+			            }
 			        }
 				});
 			}
