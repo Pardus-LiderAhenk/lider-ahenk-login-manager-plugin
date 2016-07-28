@@ -78,9 +78,10 @@
 		<menuContribution
             locationURI="menu:tr.org.liderahenk.liderconsole.menus.ProfileDefinition?after=additions">
  				<command
-                  commandId="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile"
-                  id="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile"
-                  tooltip="%command.profile">
+           commandId="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile"
+           icon="icons/16/login-management-profile.png"
+           id="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile"
+           tooltip="%command.profile">
                   <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
 				  <!-- <visibleWhen>
 					   <and>
@@ -116,9 +117,26 @@
       		allPopups="false"
             locationURI="popup:tr.org.liderahenk.liderconsole.menus.ApplyTask?after=additions">
  				<command
-                  commandId="tr.org.liderahenk.liderconsole.commands.LoginManagerTask"
-                  id="tr.org.liderahenk.liderconsole.commands.LoginManagerTask"
-                  tooltip="%command.task">
+           commandId="tr.org.liderahenk.liderconsole.commands.LoginManagerTask"
+           icon="icons/16/login-management.png"
+           id="tr.org.liderahenk.liderconsole.commands.LoginManagerTask"
+           tooltip="%command.task">
+        <visibleWhen>
+           <and>
+              <with
+                    variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.available">
+                 <equals
+                       value="true">
+                 </equals>
+              </with>
+              <with
+                    variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
+                 <equals
+                       value="true">
+                 </equals>
+              </with>
+           </and>
+        </visibleWhen>
                   <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
 				  <!-- <visibleWhen>
 					   <and>
