@@ -12,7 +12,6 @@ class Safe(AbstractPlugin):
         self.username = str(context.get_username())
         self.logger = self.get_logger()
 
-        self.initial_rules_file_path = '/etc/ahenk/iptables.rules'
         self.logger.debug('[LOGIN-MANAGER - safe] Parameters were initialized.')
 
 
