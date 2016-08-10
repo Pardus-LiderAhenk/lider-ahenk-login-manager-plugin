@@ -38,7 +38,6 @@ class LoginManager(AbstractPlugin):
             config.set('PERMISSION', 'end_time', str(self.end_time))
             config.set('PERMISSION', 'last_date', str(self.last_date))
 
-            self.create_directory('{0}login-manager/login_files'.format(self.Ahenk.plugins_path()))
             with open('{0}login-manager/login_files/{1}.permissions'.format(self.Ahenk.plugins_path(), self.username), 'w') as configfile:
                 config.write(configfile)
 
