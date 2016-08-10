@@ -25,10 +25,6 @@ class LoginManager(AbstractPlugin):
         self.start_time = self.parameters['start-time']
         self.end_time = self.parameters['end-time']
         self.last_date = datetime.datetime.strptime(str(self.parameters['last-date']), "%d/%m/%Y").date()
-        self.current_date = datetime.datetime.today().date()
-
-        self.command_logout_user = 'pkill -u {0}'
-        self.command_get_users_currently_login = "who | cut -d' ' -f1 | sort | uniq"
 
         self.logger.debug('[LOGIN-MANAGER] Parameters were initialized.')
 
