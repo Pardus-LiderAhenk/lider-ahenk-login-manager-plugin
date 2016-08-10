@@ -51,27 +51,6 @@ class LoginManager(AbstractPlugin):
             self.make_executable('{0}login-manager/scripts/check.py'.format(self.Ahenk.plugins_path()))
             self.execute_script('{0}login-manager/scripts/cron.sh'.format(self.Ahenk.plugins_path()), ['* * * * * /usr/bin/python3 {0}login-manager/scripts/check.py {0}'.format(self.Ahenk.plugins_path())])
 
-            if self.current_date > self.last_date:
-                if self.username != None:
-                    self.logger.debug(
-                        '[LOGIN-MANAGER] Because of the last availability date, session will be terminated for user \'{0}\''.format(
-                            self.username))
-                    self.execute(self.command_logout_user.format(self.username))
-                else:
-                    result_code, p_out, p_err = self.execute(self.command_get_users_currently_login)
-                    users = []
-
-                    if p_out != None:
-                        users = str(p_out).split('\n')
-                        users.pop()
-
-                    for user in users:
-                        self.logger.debug(
-                            '[LOGIN-MANAGER] Because of the last availability date, session will be terminated for user \'{0}\''.format(
-                                user))
-                        self.execute(self.command_logout_user.format(user))
-
-
             self.context.create_response(code=self.message_code.POLICY_PROCESSED.value,
                                              message='Oturum kontrolü başlatıldı.')
             self.logger.info('[LOGIN-MANAGER] Session check has been started.')
