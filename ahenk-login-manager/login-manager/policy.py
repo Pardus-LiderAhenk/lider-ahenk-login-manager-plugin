@@ -26,6 +26,8 @@ class LoginManager(AbstractPlugin):
         self.end_time = self.parameters['end-time']
         self.last_date = datetime.datetime.strptime(str(self.parameters['last-date']), "%d/%m/%Y").date()
 
+        self.command_cron_control = 'crontab -l | grep login-manager/scripts/check.py'
+
         self.logger.debug('[LOGIN-MANAGER] Parameters were initialized.')
 
     def handle_policy(self):
@@ -38,13 +40,20 @@ class LoginManager(AbstractPlugin):
             config.set('PERMISSION', 'end_time', str(self.end_time))
             config.set('PERMISSION', 'last_date', str(self.last_date))
 
+            if not self.is_exist('{0}login-manager/login_files'.format(self.Ahenk.plugins_path())):
+                self.create_directory('{0}login-manager/login_files'.format(self.Ahenk.plugins_path()))
+
             with open('{0}login-manager/login_files/{1}.permissions'.format(self.Ahenk.plugins_path(), self.username), 'w') as configfile:
                 config.write(configfile)
 
             self.logger.debug('[LOGIN-MANAGER] Creating a cron job to check session every minute...')
             self.make_executable('{0}login-manager/scripts/cron.sh'.format(self.Ahenk.plugins_path()))
             self.make_executable('{0}login-manager/scripts/check.py'.format(self.Ahenk.plugins_path()))
-            self.execute_script('{0}login-manager/scripts/cron.sh'.format(self.Ahenk.plugins_path()), ['* * * * * /usr/bin/python3 {0}login-manager/scripts/check.py {0}'.format(self.Ahenk.plugins_path())])
+
+            result_code, p_out, p_err = self.execute(self.command_cron_control)
+
+            if p_out == '':
+                self.execute_script('{0}login-manager/scripts/cron.sh'.format(self.Ahenk.plugins_path()), ['* * * * * /usr/bin/python3 {0}login-manager/scripts/check.py {0}'.format(self.Ahenk.plugins_path())])
 
             self.context.create_response(code=self.message_code.POLICY_PROCESSED.value,
                                              message='Oturum kontrolü başlatıldı.')
