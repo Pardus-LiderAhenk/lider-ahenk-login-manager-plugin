@@ -22,53 +22,14 @@
    
    <extension
        point="org.eclipse.ui.handlers">
-
-		<!-- Profile handler -->
        	<handler
             class="tr.org.liderahenk.loginmanager.handlers.LoginManagerProfileHandler"
             commandId="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile">
-           <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-		   <!-- <enabledWhen>
-				<and>
-		          <with
-		                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.available">
-		             <equals
-		                   value="true">
-		             </equals>
-		          </with>
-				<with
-	                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-	             	<equals
-		                   value="true">
-		            </equals>
-	          	</with>
-		       </and>
-		    </enabledWhen> -->        
       	</handler>
-      	
-      	<!-- Task handler -->
        <handler
             class="tr.org.liderahenk.loginmanager.handlers.LoginManagerTaskHandler"
             commandId="tr.org.liderahenk.liderconsole.commands.LoginManagerTask">
-           <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-		   <!-- <enabledWhen>
-				<and>
-		          <with
-		                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.available">
-		             <equals
-		                   value="true">
-		             </equals>
-		          </with>
-				<with
-	                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-	             	<equals
-		                   value="true">
-		            </equals>
-	          	</with>
-		       </and>
-		    </enabledWhen> -->        
       </handler>
-      
   </extension>
   
   <extension
@@ -78,37 +39,10 @@
 		<menuContribution
             locationURI="menu:tr.org.liderahenk.liderconsole.menus.ProfileDefinition?after=additions">
  				<command
-           commandId="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile"
-           icon="icons/16/login-management-profile.png"
-           id="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile"
-           tooltip="%command.profile">
-                  <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-				  <!-- <visibleWhen>
-					   <and>
-			                <iterate operator="or">		
-			                	<or>
-							  	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isSearchSelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					          	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isEntrySelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					        	</or>
-					        </iterate>
-							<with
-				                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-				             	<equals
-					                   value="true">
-					            </equals>
-				          	</with>
-					    </and>
-					</visibleWhen> -->               
+		           commandId="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile"
+		           icon="icons/16/login-management-profile.png"
+		           id="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile"
+		           tooltip="%command.profile">
            		</command>
 		</menuContribution>
       
@@ -143,33 +77,6 @@
               </with>
            </and>
         </visibleWhen>
-                  <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-				  <!-- <visibleWhen>
-					   <and>
-			                <iterate operator="or">		
-			                	<or>
-							  	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isSearchSelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					          	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isEntrySelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					        	</or>
-					        </iterate>
-							<with
-				                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-				             	<equals
-					                   value="true">
-					            </equals>
-				          	</with>
-					    </and>
-					</visibleWhen> -->               
            		</command>
 		</menuContribution>
   </extension>
@@ -178,6 +85,13 @@
 	<extension
   		point="tr.org.liderahenk.liderconsole.core.policymenu">
   		<policyItem label="%command.profile" pluginName="login-manager" pluginVersion="1.0.0" profileCommandId="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile" />
+  	</extension>
+  	
+	<!-- Add extension point contribution for i18n messages -->
+	<extension
+  		point="tr.org.liderahenk.liderconsole.core.i18n">
+  		<task code="MANAGE" label="%command.task" />
+		<plugin name="login-manager" label="%plugin.label" />
   	</extension>
   	
 </plugin>
