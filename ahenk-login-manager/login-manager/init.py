@@ -11,10 +11,10 @@ class Init(AbstractPlugin):
         self.context = context
         self.logger = self.get_logger()
 
-        self.logger.debug('[LOGIN-MANAGER - init] Parameters were initialized.')
+        self.logger.debug('Parameters were initialized.')
 
     def handle_init_mode(self):
-        self.logger.debug('[LOGIN-MANAGER - init] Removing login-manager cron job if exist...')
+        self.logger.debug('Removing login-manager cron job if exist...')
         self.execute('crontab -l | sed \'/{0}/d\' | crontab -'.format('login-manager/scripts/check.py'))
 
 
