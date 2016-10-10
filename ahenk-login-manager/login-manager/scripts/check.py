@@ -28,6 +28,7 @@ class CheckTime():
         self.start_time = ''
         self.end_time = ''
         self.last_date = ''
+        self.duration = ''
 
         self.arr_start_time = ''
         self.arr_end_time = ''
@@ -57,12 +58,15 @@ class CheckTime():
                 config_parser.read(file)
 
                 logging.debug('Getting parameters from permission file for user \'{0}\''.format(self.username))
+
                 self.days = config_parser.get('PERMISSION', 'days')
                 self.start_time = config_parser.get('PERMISSION', 'start_time')
                 self.end_time = config_parser.get('PERMISSION', 'end_time')
                 self.last_date = datetime.datetime.strptime(str(config_parser.get('PERMISSION', 'last_date')),
                                                             "%Y-%m-%d").date()
-                logging.debug('Days: {0}, Start Time: {1}, End Time: {2}, Last Date: {3}'.format(self.days, self.start_time, self.end_time, self.last_date))
+                self.duration = config_parser.get('PERMISSION', 'duration')
+
+                logging.debug('Days: {0}, Start Time: {1}, End Time: {2}, Last Date: {3}, Duration between notify and logout: {4}'.format(self.days, self.start_time, self.end_time, self.last_date, self.duration))
 
                 self.arr_start_time = str(self.start_time).split(':')
                 self.arr_end_time = str(self.end_time).split(':')
@@ -90,7 +94,12 @@ class CheckTime():
                 process = subprocess.Popen(self.command_logout_user.format(self.username), stdin=None, env=None, cwd=None, stderr=subprocess.PIPE,
                                            stdout=subprocess.PIPE, shell=True)
                 process.wait()
+
+            elif (int(self.end_minute) - int(self.current_minute) == int(self.duration)):
+                # notify ('Session will be terminated after "int(self.duration)" minute for user "self.username".')
+                pass
         else:
+            # notify ('Session will be terminated now for user "self.username".')
             logging.debug('User \'{0}\' will log out.'.format(self.username))
             process = subprocess.Popen(self.command_logout_user.format(self.username), stdin=None, env=None, cwd=None, stderr=subprocess.PIPE,
                                        stdout=subprocess.PIPE, shell=True)
@@ -121,8 +130,13 @@ class CheckTime():
                     process = subprocess.Popen(self.command_logout_user.format(user), stdin=None, env=None, cwd=None, stderr=subprocess.PIPE,
                                                stdout=subprocess.PIPE, shell=True)
                     process.wait()
+
+            elif (int(self.end_minute) - int(self.current_minute) == int(self.duration)):
+                # notify ('Session will be terminated after "int(self.duration)" minute for users: "users".')
+                pass
         else:
             for user in users:
+                # notify ('Session will be terminated now for user "user".')
                 logging.debug('User \'{0}\' will log out.'.format(user))
                 process = subprocess.Popen(self.command_logout_user.format(user), stdin=None, env=None, cwd=None, stderr=subprocess.PIPE,
                                            stdout=subprocess.PIPE, shell=True)
