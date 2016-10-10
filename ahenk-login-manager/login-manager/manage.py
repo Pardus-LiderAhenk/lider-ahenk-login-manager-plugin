@@ -6,6 +6,7 @@ import datetime
 
 from base.plugin.abstract_plugin import AbstractPlugin
 
+
 class LoginManager(AbstractPlugin):
     def __init__(self, task, context):
         super(AbstractPlugin, self).__init__()
@@ -17,7 +18,7 @@ class LoginManager(AbstractPlugin):
         self.command_logout_user = 'pkill -u {0}'
         self.command_get_users_currently_login = "who | cut -d' ' -f1 | sort | uniq"
 
-        self.logger.debug('[LOGIN-MANAGER] Parameters were initialized.')
+        self.logger.debug('Parameters were initialized.')
 
     def handle_task(self):
         try:
@@ -30,17 +31,18 @@ class LoginManager(AbstractPlugin):
                 users.pop()
 
             for user in users:
-                self.logger.debug('[LOGIN-MANAGER] End session for user: {0}'.format(user))
+                self.logger.debug('End session for user: {0}'.format(user))
                 self.execute(self.command_logout_user.format(user))
 
-            self.logger.info('[LOGIN-MANAGER] Login-Manager task is handled successfully')
+            self.logger.info('Login-Manager task is handled successfully')
             self.context.create_response(code=self.message_code.TASK_PROCESSED.value,
                                          message='Oturumlar başarıyla sonlandırıldı.')
 
         except Exception as e:
-            self.logger.error('[LOGIN-MANAGER] A problem occured while handling Login-Manager task: {0}'.format(str(e)))
+            self.logger.error('A problem occured while handling Login-Manager task: {0}'.format(str(e)))
             self.context.create_response(code=self.message_code.TASK_ERROR.value,
-                                     message='Login-Manager görevi çalıştırılırken bir hata oluştu.')
+                                         message='Login-Manager görevi çalıştırılırken bir hata oluştu.')
+
 
 def handle_task(task, context):
     manage = LoginManager(task, context)
