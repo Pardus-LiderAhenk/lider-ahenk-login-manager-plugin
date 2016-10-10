@@ -12,8 +12,10 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
@@ -23,6 +25,7 @@ import tr.org.liderahenk.liderconsole.core.exceptions.ValidationException;
 import tr.org.liderahenk.liderconsole.core.model.Profile;
 import tr.org.liderahenk.loginmanager.constants.LoginManagerConstants;
 import tr.org.liderahenk.loginmanager.i18n.Messages;
+import tr.org.liderahenk.loginmanager.utils.LoginManagerUtils;
 
 /**
  * 
@@ -35,11 +38,16 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 	private DateTime startTime;
 	private DateTime endTime;
 	private DateTime date;
+	private Combo cmbDuration;
 	
 	private final String[] days = new String[] {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 	private final String[] daysValues = new String[] {"0", "1", "2", "3", "4", "5", "6"};
 	
 	private List<String> chosenDays = new ArrayList<String>();
+	
+	// Combo values & i18n labels
+	private final String[] statusArr = new String[] { "30S", "5M" };
+	private final String[] statusValueArr = new String[] { "30", "300" };
 	
 	@Override
 	public void init() {
@@ -139,6 +147,23 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 			date.setMonth(Integer.valueOf(arrDate[1])-1);
 			date.setYear(Integer.valueOf(arrDate[2]));
 		}
+		
+		Composite compNotify = new Composite(composite, SWT.NONE);
+		compNotify.setLayout(new GridLayout(2, false));
+		
+		Label lblNotify = new Label(compNotify, SWT.NONE);
+		lblNotify.setText(Messages.getString("NOTIFY_BEFORE_LOGOUT"));
+		
+		cmbDuration = new Combo(compNotify, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
+		cmbDuration.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		for (int i = 0; i < statusArr.length; i++) {
+			String i18n = Messages.getString(statusArr[i]);
+			if (i18n != null && !i18n.isEmpty()) {
+				cmbDuration.add(i18n);
+				cmbDuration.setData(i + "", statusValueArr[i]);
+			}
+		}
+		cmbDuration.select(0);
 	}
 	
 	public String convertDateToString(DateTime date) {
@@ -157,7 +182,7 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 	public Date convertTimeToDate(DateTime time) {
 		
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(0); // set to zero epoch
+		calendar.setTimeInMillis(0);
 		calendar.set(Calendar.HOUR, time.getHours());
 		calendar.set(Calendar.MINUTE, time.getMinutes());
 		
@@ -171,6 +196,7 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		profileData.put(LoginManagerConstants.PARAMETERS.START_TIME, startTime.getHours() + ":" + startTime.getMinutes());
 		profileData.put(LoginManagerConstants.PARAMETERS.END_TIME, endTime.getHours() + ":" + endTime.getMinutes());
 		profileData.put(LoginManagerConstants.PARAMETERS.LAST_DATE, convertDateToString(date));
+		profileData.put(LoginManagerConstants.PARAMETERS.DURATION, LoginManagerUtils.getSelectedValue(cmbDuration));
 		return profileData;
 	}
 	
@@ -182,7 +208,5 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		if(start.after(end)) {
 			throw new ValidationException(Messages.getString("START_TIME_NOT_BIGGER_THAN_END_TIME"));
 		}
-		
 	}
-	
 }

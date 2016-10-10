@@ -11,6 +11,7 @@ public class LoginManagerConstants {
 		public static final String START_TIME = "start-time";
 		public static final String END_TIME = "end-time";
 		public static final String LAST_DATE = "last-date";
+		public static final String DURATION = "duration";
 	}
 	
 }
