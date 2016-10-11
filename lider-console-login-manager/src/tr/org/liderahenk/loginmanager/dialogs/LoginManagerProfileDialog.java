@@ -46,8 +46,8 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 	private List<String> chosenDays = new ArrayList<String>();
 	
 	// Combo values & i18n labels
-	private final String[] statusArr = new String[] { "30S", "5M" };
-	private final String[] statusValueArr = new String[] { "30", "300" };
+	private final String[] statusArr = new String[] { "1M", "5M" };
+	private final String[] statusValueArr = new String[] { "1", "5" };
 	
 	@Override
 	public void init() {
