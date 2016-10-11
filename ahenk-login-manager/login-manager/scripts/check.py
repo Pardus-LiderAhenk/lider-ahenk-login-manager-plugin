@@ -107,13 +107,11 @@ class CheckTime:
                                  'Oturum {0} dakika sonra kapatılacak!'.format(str(self.duration)),
                                  System.Sessions.display(self.username),
                                  self.username)
-                # notify ('Session will be terminated after "int(self.duration)" minute for user "self.username".')
         else:
             Util.send_notify('Lider Ahenk',
                              'Oturum şimdi kapatılacak!',
                              System.Sessions.display(self.username),
                              self.username)
-            # notify ('Session will be terminated now for user "self.username".')
             logging.debug('User \'{0}\' will log out.'.format(self.username))
             process = subprocess.Popen(self.command_logout_user.format(self.username), stdin=None, env=None, cwd=None,
                                        stderr=subprocess.PIPE,
@@ -154,7 +152,6 @@ class CheckTime:
                                      'Oturum {0} dakika sonra kapatılacak!'.format(str(self.duration)),
                                      System.Sessions.display(user),
                                      user)
-                # notify ('Session will be terminated after "int(self.duration)" minute for users: "users".')
                 pass
         else:
             for user in users:
@@ -162,7 +159,6 @@ class CheckTime:
                                  'Oturum şimdi kapatılacak!',
                                  System.Sessions.display(user),
                                  user)
-                # notify ('Session will be terminated now for user "user".')
                 logging.debug('User \'{0}\' will log out.'.format(user))
                 process = subprocess.Popen(self.command_logout_user.format(user), stdin=None, env=None, cwd=None,
                                            stderr=subprocess.PIPE,
