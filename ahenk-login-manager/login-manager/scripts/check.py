@@ -47,7 +47,7 @@ class CheckTime:
         self.end_minute = ''
         self.current_minute = ''
 
-        self.command_logout_user = 'pkill -u {0}'
+        self.command_logout_user = 'killall --user {0}'
         self.command_get_users_currently_login = "who | cut -d' ' -f1 | sort | uniq"
 
         logging.debug('Parameters  were initialized.')

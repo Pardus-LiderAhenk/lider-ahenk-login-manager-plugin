@@ -15,7 +15,7 @@ class LoginManager(AbstractPlugin):
         self.logger = self.get_logger()
         self.message_code = self.get_message_code()
 
-        self.command_logout_user = 'pkill -u {0}'
+        self.command_logout_user = 'killall --user {0}'
         self.command_get_users_currently_login = "who | cut -d' ' -f1 | sort | uniq"
 
         self.logger.debug('Parameters were initialized.')
