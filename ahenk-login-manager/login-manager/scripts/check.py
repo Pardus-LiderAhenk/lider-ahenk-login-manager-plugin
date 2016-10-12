@@ -13,7 +13,6 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 from base.util.util import Util
-from base.system.system import System
 
 
 class CheckTime:
@@ -90,7 +89,7 @@ class CheckTime:
                 self.write_to_global_profile()
 
         except Exception as e:
-            pass
+            logging.error(e)
 
     def write_to_user_profile(self):
         if str(self.today) in self.days:
@@ -105,12 +104,12 @@ class CheckTime:
             elif int(self.end_minute) - int(self.current_minute) == int(self.duration):
                 Util.send_notify('Lider Ahenk',
                                  'Oturum {0} dakika sonra kapatılacak!'.format(str(self.duration)),
-                                 System.Sessions.display(self.username),
+                                 ':0',
                                  self.username)
         else:
             Util.send_notify('Lider Ahenk',
                              'Oturum şimdi kapatılacak!',
-                             System.Sessions.display(self.username),
+                             ':0',
                              self.username)
             logging.debug('User \'{0}\' will log out.'.format(self.username))
             process = subprocess.Popen(self.command_logout_user.format(self.username), stdin=None, env=None, cwd=None,
@@ -150,14 +149,14 @@ class CheckTime:
                 for user in users:
                     Util.send_notify('Lider Ahenk',
                                      'Oturum {0} dakika sonra kapatılacak!'.format(str(self.duration)),
-                                     System.Sessions.display(user),
+                                     ':0',
                                      user)
                 pass
         else:
             for user in users:
                 Util.send_notify('Lider Ahenk',
                                  'Oturum şimdi kapatılacak!',
-                                 System.Sessions.display(user),
+                                 ':0',
                                  user)
                 logging.debug('User \'{0}\' will log out.'.format(user))
                 process = subprocess.Popen(self.command_logout_user.format(user), stdin=None, env=None, cwd=None,
