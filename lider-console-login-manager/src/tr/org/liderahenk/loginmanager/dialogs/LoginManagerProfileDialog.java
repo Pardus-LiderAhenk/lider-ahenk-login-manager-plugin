@@ -164,6 +164,15 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 			}
 		}
 		cmbDuration.select(0);
+		
+		String duration = (String) (profile != null && profile.getProfileData() != null
+				? profile.getProfileData().get(LoginManagerConstants.PARAMETERS.DURATION) : null);
+		
+		for (int i = 0; i < statusValueArr.length; i++) {
+			if (statusValueArr[i].equalsIgnoreCase(duration)) {
+				cmbDuration.select(i);
+			}
+		}
 	}
 	
 	public String convertDateToString(DateTime date) {
