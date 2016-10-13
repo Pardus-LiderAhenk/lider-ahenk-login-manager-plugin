@@ -54,6 +54,9 @@ class LoginManager(AbstractPlugin):
             self.make_executable('{0}login-manager/scripts/cron.sh'.format(self.Ahenk.plugins_path()))
             self.make_executable('{0}login-manager/scripts/check.py'.format(self.Ahenk.plugins_path()))
 
+            self.logger.debug('Initial control for login permissions...')
+            self.execute('/usr/bin/python3 {0}login-manager/scripts/check.py {0}'.format(self.Ahenk.plugins_path()))
+
             result_code, p_out, p_err = self.execute(self.command_cron_control.format('check.py'))
 
             if p_out == '':
