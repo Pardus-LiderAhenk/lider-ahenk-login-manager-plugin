@@ -43,7 +43,7 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 	private final String[] days = new String[] {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 	private final String[] daysValues = new String[] {"0", "1", "2", "3", "4", "5", "6"};
 	
-	private List<String> chosenDays = new ArrayList<String>();
+	private List<String> chosenDays;
 	
 	// Combo values & i18n labels
 	private final String[] statusArr = new String[] { "1M", "5M" };
@@ -72,8 +72,14 @@ public class LoginManagerProfileDialog implements IProfileDialog {
 		Composite compDays = new Composite(composite, SWT.NONE);
 		compDays.setLayout(new GridLayout(5, false));
 		
+		chosenDays = new ArrayList<String>();
+		
 		List<String> data = (List<String>) (profile != null && profile.getProfileData() != null
 				? profile.getProfileData().get(LoginManagerConstants.PARAMETERS.DAYS) : null);
+		
+		if (data != null) {
+			chosenDays = data;
+		}
 		
 		for (int i = 0; i < days.length; i++) {
 			String i18n = Messages.getString(days[i]);
