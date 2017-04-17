@@ -15,33 +15,40 @@ import tr.org.liderahenk.loginmanager.dialogs.LoginManagerProfileDialog;
 import tr.org.liderahenk.loginmanager.i18n.Messages;
 import tr.org.liderahenk.liderconsole.core.constants.LiderConstants;
 import tr.org.liderahenk.liderconsole.core.editorinput.ProfileEditorInput;
+import tr.org.liderahenk.liderconsole.core.handlers.LiderAbstractHandler;
 
 /**
  * Profile definition handler for login-manager plugin.
  *
  */
-public class LoginManagerProfileHandler extends AbstractHandler {
+public class LoginManagerProfileHandler extends LiderAbstractHandler {
 
 	private Logger logger = LoggerFactory.getLogger(LoginManagerProfileHandler.class);
 
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-        IWorkbenchPage page = window.getActivePage();
-        
-        try {
-			// Here we open default profile editor implementation so that all
-			// profiles can be handled by Lider Console Core.
-			// We also pass our profile dialog implementation as parameter to
-			// allow the editor use it dynamically.
-			page.openEditor(new ProfileEditorInput(Messages.getString("LoginManager"), LoginManagerConstants.PLUGIN_NAME, 
-					LoginManagerConstants.PLUGIN_VERSION, new LoginManagerProfileDialog()), 
-					LiderConstants.EDITORS.PROFILE_EDITOR);
-		} catch (PartInitException e) {
-			logger.error(e.getMessage(), e);
-		}
-
-        return null;
+//	public Object execute(ExecutionEvent event) throws ExecutionException {
+//		
+//		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+//        IWorkbenchPage page = window.getActivePage();
+//        
+//        try {
+//			// Here we open default profile editor implementation so that all
+//			// profiles can be handled by Lider Console Core.
+//			// We also pass our profile dialog implementation as parameter to
+//			// allow the editor use it dynamically.
+//			page.openEditor(new ProfileEditorInput(Messages.getString("LoginManager"), LoginManagerConstants.PLUGIN_NAME, 
+//					LoginManagerConstants.PLUGIN_VERSION, new LoginManagerProfileDialog()), 
+//					LiderConstants.EDITORS.PROFILE_EDITOR);
+//		} catch (PartInitException e) {
+//			logger.error(e.getMessage(), e);
+//		}
+//
+//        return null;
+//	}
+	
+	@Override
+	public ProfileEditorInput getEditorInput() {
+		return new ProfileEditorInput(Messages.getString("LoginManager"), LoginManagerConstants.PLUGIN_NAME, 
+			LoginManagerConstants.PLUGIN_VERSION, new LoginManagerProfileDialog());
 	}
 
 }
