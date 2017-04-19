@@ -87,10 +87,11 @@
   		<policyItem label="%command.profile" pluginName="login-manager" pluginVersion="1.0.0" profileCommandId="tr.org.liderahenk.liderconsole.commands.LoginManagerProfile" />
   	</extension>
 
-	<!-- Add extension point contribution for "policy execution" dialogs -->
+	<!-- Add extension point contribution for "task execution" dialogs -->
 	<extension
   		point="tr.org.liderahenk.liderconsole.core.taskmenu">
-  		<taskItem label="%command.task" pluginName="login-manager" pluginVersion="1.0.0" taskCommandId="tr.org.liderahenk.liderconsole.commands.LoginManagerTask" />
+  		<taskItem label="%command.task" pluginName="login-manager" pluginVersion="1.0.0" taskCommandId="tr.org.liderahenk.liderconsole.commands.LoginManagerTask" selectionType="multi" description="Ahenk makinesinde/makienlerinde oturum açmış tüm kullanıcıların oturumlarını tek
+bir tuşla sonlandırmayı sağlar.&#xA;Varolan oturumları sonlandırmak için tıklayınız.."/>
   	</extension>
   	
 	<!-- Add extension point contribution for i18n messages -->
