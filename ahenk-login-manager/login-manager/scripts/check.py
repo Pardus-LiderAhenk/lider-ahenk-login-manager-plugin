@@ -7,7 +7,7 @@ import datetime
 import glob
 import logging
 import os
-import subprocess
+import subprocess, time
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
@@ -81,12 +81,12 @@ class CheckTime:
                 self.end_minute = int(self.arr_end_time[0]) * 60 + int(self.arr_end_time[1])
                 self.current_minute = int(self.current_time.hour) * 60 + int(self.current_time.minute)
 
-            if self.username != 'None':
-                logging.debug('Writing to user profile...')
-                self.write_to_user_profile()
-            else:
-                logging.debug('Writing to global profile...')
-                self.write_to_global_profile()
+                if self.username != 'None':
+                    logging.debug('Writing to user profile...')
+                    self.write_to_user_profile()
+                else:
+                    logging.debug('Writing to global profile...')
+                    self.write_to_global_profile()
 
         except Exception as e:
             logging.error(e)
@@ -111,6 +111,7 @@ class CheckTime:
                              'Oturum şimdi kapatılacak!',
                              ':0',
                              self.username)
+            time.sleep(5)
             logging.debug('User \'{0}\' will log out.'.format(self.username))
             process = subprocess.Popen(self.command_logout_user.format(self.username), stdin=None, env=None, cwd=None,
                                        stderr=subprocess.PIPE,
