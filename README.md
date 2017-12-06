@@ -33,7 +33,7 @@ login-manager plugin for [Lider Ahenk project](http://www.liderahenk.org.tr).
 
 #### Ahenk
 
-1. Create a soft link for _ahenk-login-manager/login-manager_ directory via `sudo ln -s lider-ahenk-login-manager-plugin/ahenk-login-manager/login-manager/ /opt/ahenk/plugins`
+1. Create a soft link for _ahenk-login-manager/login-manager_ directory via `sudo ln -s lider-ahenk-login-manager-plugin/ahenk-login-manager/login-manager/ /usr/share/ahenk/plugins`
 
 ## Contribution
 
