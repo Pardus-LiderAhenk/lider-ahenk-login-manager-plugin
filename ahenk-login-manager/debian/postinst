@@ -21,5 +21,7 @@ case "$1" in
         exit 1
     ;;
 esac
+crontab -l | sed '/login-manager\/scripts\/check.py/d' > /tmp/login-manager-cronfile && crontab /tmp/login-manager-cronfile
+rm -rf /tmp/login-manager-cronfile
 
 exit 0

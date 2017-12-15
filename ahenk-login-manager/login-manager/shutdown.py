@@ -20,4 +20,4 @@ class Shutdown(AbstractPlugin):
 
 def handle_mode(context):
     shutdown = Shutdown(context)
-    shutdown.handle_shutdown_mode()
+    #shutdown.handle_shutdown_mode()

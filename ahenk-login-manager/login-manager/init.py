@@ -20,4 +20,4 @@ class Init(AbstractPlugin):
 
 def handle_mode(context):
     init = Init(context)
-    init.handle_init_mode()
+    #init.handle_init_mode()
