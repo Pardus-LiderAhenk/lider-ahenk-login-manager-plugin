@@ -5,7 +5,7 @@
 def info():
     inf = dict()
     inf['name'] = 'login-manager'
-    inf['version'] = '1.0.0'
+    inf['version'] = '1.1'
     inf['support'] = 'debian'
     inf['description'] = 'Login-Manager plugin provides to managing sessions for users or machine.'
     inf['task'] = True
